@@ -35,5 +35,5 @@ jobs:
       - name: Run Postman tests
         run: |
          newman run tests/readify-api-tests.json \
-            --env-var "base_url=http://127.0.0.1:5000" \
+            --env-var "baseUrl=http://127.0.0.1:5000" \
             --reporters cli
