@@ -1,0 +1,410 @@
+{
+  "info": {
+    "_postman_id": "a8da9f5a-cd0f-4269-b3d6-67b9242340f9",
+    "name": "Readify API tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53310660"
+  },
+  "item": [
+    {
+      "name": "Post Book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Book has an ID\", function () {",
+              "    const book = pm.response.json();",
+              "    pm.expect(book.id).to.not.be.undefined;",
+              "    pm.environment.set(\"book_id\", book.id);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n\n    \"title\": \"POSTMAN testing 4\",\n    \"author_id\": \"test-author-756\",\n    \"isbn\": \"978-0743444\",\n    \"price\": 95.99\n\n  }\n    ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Books",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is an array\", function () {",
+              "    const books = pm.response.json();",
+              "    pm.expect(books).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n    \"title\": \"POSTMAN testing\",\n    \"author_id\": \"test-author-789\",\n    \"isbn\": \"978-074327355\",\n    \"price\": 9.99\n  }"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Returns correct book\", function () {",
+              "    const book = pm.response.json();",
+              "    pm.expect(book.id).to.eql(pm.environment.get(\"book_id\"));",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n    \"title\": \"POSTMAN testing\",\n    \"author_id\": \"test-author-789\",\n    \"isbn\": \"978-074327355\",\n    \"price\": 9.99\n  }"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/{{book_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "{{book_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Book was updated\", function () {",
+              "    const book = pm.response.json();",
+              "    pm.expect(book.price).to.eql(99.98);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n    \"price\": 99.98\n  }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/{{book_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "{{book_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Replace Book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Book was replaced\", function () {",
+              "    const book = pm.response.json();",
+              "    pm.expect(book.title).to.eql(\"The Great Gatsby Updated\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"The Great Gatsby Updated\",\n    \"author_id\": \"test-author-123\",\n    \"isbn\": \"978-0743273565\",\n    \"price\": 14.99\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/{{book_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "{{book_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n    \"title\": \"POSTMAN testing PATCHED 2\",\n    \"author_id\": \"test-author-987\"\n  }"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/{{book_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "{{book_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Verification",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Book not found\", function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.message).to.include(\"Book not found\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\n    \"title\": \"POSTMAN testing PATCHED 2\",\n    \"author_id\": \"test-author-987\"\n  }"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/:id ",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            ":id "
+          ],
+          "variable": [
+            {
+              "key": "id ",
+              "value": "3fb968db-db19-45ef-b1f1-ef69d1ae3b95"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Validation Error",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Validation error returned\", function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.message).to.include(\"required\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"author_id\": \"test-author-123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
